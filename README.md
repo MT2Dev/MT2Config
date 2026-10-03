@@ -132,7 +132,7 @@ The buttons:
 ### Options the client does not apply
 
 The vanilla client reads these keys from `metin2.cfg` and saves them again, but never uses them. They are therefore
-hidden in the window, and their lines in `metin2.cfg` are not touched at all, also not by the **Defaults** button.
+hidden in the window, and their values in `metin2.cfg` are never changed, also not by the **Defaults** button.
 If your client has been changed to use one of them, show it again in `GameClient.cs`
 (see [Server settings](#server-settings-gameclientcs)).
 
@@ -170,7 +170,7 @@ If your client has been changed to use one of them, show it again in `GameClient
 **Writing**
 
 - Keys are written in the order of `SaveConfig()`, followed by any other keys in their original order. Every key of
-  an option shown in the window is written explicitly; the keys of hidden options are left as they are.
+  an option shown in the window is written explicitly; hidden options keep the value found in the file.
 - `MUSIC_VOLUME` is written with three decimals (`%.3f`), so the client never mistakes it for the old scale.
   `VOICE_VOLUME` is the client's 0-5 integer.
 - Lines end with CRLF. The only empty line is the one at the end, as `SaveConfig()` writes it.
@@ -191,7 +191,7 @@ public const string Name = "Metin2";
 // Highest refresh rate the client supports.
 public const int MaxRefreshRate = 60;
 
-// Options the client reads but never applies: hidden, their lines in metin2.cfg are not touched.
+// Options the client reads but never applies: hidden, their values in metin2.cfg are kept.
 public static readonly bool ShowGamma = false;
 public static readonly bool ShowViewDistance = false;
 public static readonly bool ShowObjectCulling = false;
@@ -340,8 +340,9 @@ directly.
    `.github/release-notes/v1.1.0.md`. A `{SHA256}` placeholder in it is replaced with the checksum of `config.exe`.
    Without a notes file, the release only lists the checksum.
 2. Start the workflow in one of two ways:
-   - **Actions tab:** choose **Release**, then **Run workflow**, and enter the version (for example `1.1.0`). The tag
-     `v1.1.0` is created on the built commit when you publish the draft.
+   - **Actions tab:** choose **Release**, then **Run workflow**, and enter the version (for example `1.1.0`). The
+     workflow tags the built commit as `v1.1.0` right away. If you delete the draft instead of publishing it, delete
+     the tag as well: `git push origin --delete v1.1.0`.
    - **Tag:** push a tag of the form `vX.Y.Z`:
 
      ```
@@ -351,8 +352,8 @@ directly.
 
 3. Check the draft on the [Releases](https://github.com/MT2Dev/MT2Config/releases) page and click **Publish release**.
 
-The workflow skips a tag that already has a release or draft, so the tag created by publishing a draft from the
-Actions tab does not start a second build. Started from the Actions tab for such a version, it stops with an error.
+A pushed tag that already has a release or draft is skipped. Started from the Actions tab, the workflow stops with an
+error when the version already has a release, a draft or a tag.
 
 GitHub attaches the source code archives of the tag to every published release, which also covers the GPL
 requirement to make the source of the shipped version available.

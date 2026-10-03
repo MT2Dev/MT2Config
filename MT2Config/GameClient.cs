@@ -14,7 +14,7 @@ namespace MT2Config
         public const int MaxRefreshRate = 60;
 
         // Options the client reads from metin2.cfg but never applies (as in the vanilla client). They are hidden in the
-        // window, and their lines in metin2.cfg are not touched. Set one to true once your client uses it.
+        // window, and their values in metin2.cfg are kept. Set one to true once your client uses it.
         public static readonly bool ShowGamma = false;              // GAMMA
         public static readonly bool ShowViewDistance = false;       // VISIBILITY
         public static readonly bool ShowObjectCulling = false;      // OBJECT_CULLING

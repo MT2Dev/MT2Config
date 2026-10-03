@@ -1,11 +1,10 @@
 name: Release
 
 # Builds config.exe with the release version and creates a draft release with it. Started either
-# - from the Actions tab ("Run workflow", enter a version such as 1.0.0): the tag vX.Y.Z is created on the built
-#   commit when the draft is published, or
+# - from the Actions tab ("Run workflow", enter a version such as 1.0.0): the built commit is tagged vX.Y.Z right away,
+#   or
 # - by pushing a tag such as v1.0.0.
-# Publish the draft on the Releases page after checking it. A tag that already has a release (or draft) is skipped, so
-# the tag created by publishing a draft does not start a second one.
+# Publish the draft on the Releases page after checking it. A pushed tag that already has a release (or draft) is skipped.
 
 on:
   workflow_dispatch:
@@ -39,13 +38,18 @@ jobs:
           "number=$version" >> $env:GITHUB_OUTPUT
           "tag=$tag" >> $env:GITHUB_OUTPUT
 
-          # Publishing a draft made from the Actions tab creates its tag, and that tag push starts this workflow again.
           $releases = gh release list --limit 1000 --json tagName
           if ($LASTEXITCODE -ne 0) { throw 'Could not list the releases.' }
           if ($releases | ConvertFrom-Json | Where-Object { $_.tagName -ceq $tag }) {
             if ('${{ github.event_name }}' -eq 'workflow_dispatch') { throw "There is already a release or draft for $tag." }
             "::notice::There is already a release or draft for $tag, nothing to do."
             'skip=true' >> $env:GITHUB_OUTPUT
+          }
+          elseif ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            # This run creates the tag; one left over from a deleted draft has to be deleted first.
+            $existingTag = git ls-remote --tags origin "refs/tags/$tag"
+            if ($LASTEXITCODE -ne 0) { throw 'Could not list the tags.' }
+            if ($existingTag) { throw "The tag $tag exists without a release. Delete it (git push origin --delete $tag) or use another version." }
           }
 
       - uses: actions/setup-dotnet@v6
@@ -73,7 +77,10 @@ jobs:
           } else {
             "SHA-256 of config.exe: ``$hash``" | Set-Content release-notes.md -Encoding utf8
           }
-          # A pushed tag already points at this commit; otherwise the tag is created on it when the draft is published.
-          $tagOption = @('--verify-tag')
-          if ('${{ github.event_name }}' -eq 'workflow_dispatch') { $tagOption = @('--target', '${{ github.sha }}') }
-          gh release create $tag $exe --draft @tagOption --title "MT2Config $tag" --notes-file release-notes.md
+          # Tag the built commit now: publishing a draft without a tag puts the tag on whatever the branch points to at
+          # that moment. A tag created with the workflow's token does not start another run.
+          if ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            gh api 'repos/${{ github.repository }}/git/refs' -f "ref=refs/tags/$tag" -f 'sha=${{ github.sha }}' --silent
+            if ($LASTEXITCODE -ne 0) { throw "Could not create the tag $tag." }
+          }
+          gh release create $tag $exe --draft --verify-tag --title "MT2Config $tag" --notes-file release-notes.md

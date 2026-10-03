@@ -142,8 +142,8 @@ namespace MT2Config
         }
 
         // Same formats as CPythonSystem::SaveConfig(). Unlike the client, every key is written explicitly
-        // (SaveConfig() skips WINDOWED, VIEW_CHAT, ... when they hold their default value). Keys of options hidden in
-        // the window (GameClient.Show*) are not written, so their text in the file stays exactly as it was.
+        // (SaveConfig() skips WINDOWED, VIEW_CHAT, ... when they hold their default value). Options hidden in the
+        // window (GameClient.Show*) are not set here, so the value found in the file is written back unchanged.
         void WriteEntries()
         {
             Set("WIDTH", Width);
