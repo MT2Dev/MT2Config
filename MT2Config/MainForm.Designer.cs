@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.RootLayout = new System.Windows.Forms.TableLayoutPanel();
             this.GroupsLayout = new System.Windows.Forms.TableLayoutPanel();
             this.DisplayBox = new MT2Config.ThemedGroupBox();
@@ -74,6 +75,7 @@
             this.SaveAndPlayButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
+            this.HelpToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.RootLayout.SuspendLayout();
             this.GroupsLayout.SuspendLayout();
             this.DisplayBox.SuspendLayout();
@@ -683,6 +685,15 @@
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             //
+            // HelpToolTip
+            //
+            this.HelpToolTip.AutoPopDelay = 30000;
+            this.HelpToolTip.InitialDelay = 500;
+            this.HelpToolTip.ReshowDelay = 100;
+            this.HelpToolTip.ShowAlways = true;
+            this.HelpToolTip.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.HelpToolTip_Draw);
+            this.HelpToolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.HelpToolTip_Popup);
+            //
             // MainForm
             //
             this.AcceptButton = this.SaveButton;
@@ -777,5 +788,6 @@
         private System.Windows.Forms.Button SaveAndPlayButton;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.ToolTip HelpToolTip;
     }
 }

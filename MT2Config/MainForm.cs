@@ -16,6 +16,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Text;
 using System.Windows.Forms;
 
 namespace MT2Config
@@ -26,6 +27,10 @@ namespace MT2Config
         static readonly int[] ShadowValues = { 0, 1, 2, 3, 4, 5 };
         static readonly int[] TilingValues = { 0, 1, 2 };
         static readonly int[] GammaValues = { 0, 1, 2, 3, 4, 5 };
+
+        // Tooltips do not wrap long texts by themselves.
+        const int TipLineLength = 60;
+        const int TipPadding = 5;
 
         // The client opens "metin2.cfg" from its working directory, which is the client folder config.exe lives in.
         readonly string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ClientConfig.FileName);
@@ -47,6 +52,12 @@ namespace MT2Config
                 Icon = new Icon(icon);
 
             SaveAndPlayButton.Visible = gamePath != null;
+
+            // Options the client does not apply (see GameClient); hidden layout rows take no space.
+            GammaLabel.Visible = GammaList.Visible = GameClient.ShowGamma;
+            VisibilityLabel.Visible = VisibilityList.Visible = GameClient.ShowViewDistance;
+            ObjectCullingCheck.Visible = GameClient.ShowObjectCulling;
+            DecompressedTextureCheck.Visible = GameClient.ShowDecompressedTextures;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -113,6 +124,64 @@ namespace MT2Config
             SaveAndPlayButton.Text = language.SaveAndPlay;
             SaveButton.Text = language.Save;
             ExitButton.Text = language.Cancel;
+
+            ApplyTips();
+        }
+
+        // The label and the control of an option show the same tooltip.
+        void ApplyTips()
+        {
+            SetTip(language.TipScreenMode, ScreenModeLabel, ScreenModeList);
+            SetTip(language.TipResolution, ResolutionLabel, ResolutionList);
+            SetTip(string.Format(language.TipRefreshRate, GameClient.MaxRefreshRate), FrequencyLabel, FrequencyList);
+            SetTip(string.Format(language.TipGamma, new ClientConfig().Gamma), GammaLabel, GammaList);
+            SetTip(language.TipViewDistance, VisibilityLabel, VisibilityList);
+            SetTip(language.TipShadows, ShadowLabel, ShadowList);
+            SetTip(language.TipTiling, TilingLabel, TilingList);
+            SetTip(language.TipObjectCulling, ObjectCullingCheck);
+            SetTip(language.TipSoftwareCursor, SoftwareCursorCheck);
+            SetTip(language.TipDecompressedTextures, DecompressedTextureCheck);
+            SetTip(language.TipMusic, MusicLabel, MusicBar, MusicValueLabel);
+            SetTip(language.TipEffects, EffectsLabel, EffectsBar, EffectsValueLabel);
+            SetTip(language.TipShowChat, ViewChatCheck);
+            SetTip(language.TipAlwaysShowNames, AlwaysShowNameCheck);
+            SetTip(language.TipShowDamage, ShowDamageCheck);
+            SetTip(language.TipShowShopTitles, ShowSalesTextCheck);
+            SetTip(language.TipWindowsIme, DefaultImeCheck);
+            SetTip(language.TipLanguage, LanguageLabel, LanguageList);
+            SetTip(language.TipDarkMode, DarkModeCheck);
+            SetTip(language.TipDefaults, DefaultsButton);
+            if (gamePath != null)
+                SetTip(string.Format(language.TipSaveAndPlay, Path.GetFileName(gamePath)), SaveAndPlayButton);
+            SetTip(language.TipSave, SaveButton);
+            SetTip(language.TipCancel, ExitButton);
+        }
+
+        void SetTip(string text, params Control[] controls)
+        {
+            string wrapped = WrapText(text, TipLineLength);
+            foreach (Control control in controls)
+                HelpToolTip.SetToolTip(control, wrapped);
+        }
+
+        static string WrapText(string text, int lineLength)
+        {
+            var result = new StringBuilder(text.Length + 8);
+            int lineStart = 0;
+            foreach (string word in text.Split(' '))
+            {
+                if (result.Length > lineStart && result.Length - lineStart + 1 + word.Length > lineLength)
+                {
+                    result.Append('\n');
+                    lineStart = result.Length;
+                }
+                else if (result.Length > lineStart)
+                {
+                    result.Append(' ');
+                }
+                result.Append(word);
+            }
+            return result.ToString();
         }
 
         void ShowConfig(ClientConfig c)
@@ -142,6 +211,7 @@ namespace MT2Config
             UpdateControlStates();
         }
 
+        // Hidden options are not read back (and ClientConfig does not write them), so Defaults cannot change them.
         void ReadConfig(ClientConfig c)
         {
             Resolution resolution = SelectedValue<Resolution>(ResolutionList);
@@ -149,14 +219,18 @@ namespace MT2Config
             c.Height = resolution.Height;
             c.Frequency = SelectedValue<int>(FrequencyList);
             c.Windowed = SelectedValue<bool>(ScreenModeList);
-            c.Gamma = SelectedValue<int>(GammaList);
-            c.Visibility = SelectedValue<int>(VisibilityList);
             c.ShadowLevel = SelectedValue<int>(ShadowList);
             c.SoftwareTiling = SelectedValue<int>(TilingList);
+            if (GameClient.ShowGamma)
+                c.Gamma = SelectedValue<int>(GammaList);
+            if (GameClient.ShowViewDistance)
+                c.Visibility = SelectedValue<int>(VisibilityList);
 
-            c.ObjectCulling = ObjectCullingCheck.Checked;
+            if (GameClient.ShowObjectCulling)
+                c.ObjectCulling = ObjectCullingCheck.Checked;
+            if (GameClient.ShowDecompressedTextures)
+                c.DecompressedTexture = DecompressedTextureCheck.Checked;
             c.SoftwareCursor = SoftwareCursorCheck.Checked;
-            c.DecompressedTexture = DecompressedTextureCheck.Checked;
             c.MusicVolume = MusicBar.Value / 100f;
             c.VoiceVolume = EffectsBar.Value;
             c.ViewChat = ViewChatCheck.Checked;
@@ -199,13 +273,14 @@ namespace MT2Config
 
         void UpdateControlStates()
         {
-            // The refresh rate is only used in fullscreen mode. In the dark theme the label is greyed out by color:
-            // WinForms draws disabled labels darker than their background, which would make them invisible there.
+            // The refresh rate is only used in fullscreen mode. The label stays enabled, so its tooltip ("not used in
+            // windowed mode") can still be shown, and is greyed out by color: in the light theme with the color WinForms
+            // uses for disabled labels; in the dark theme with our own, as WinForms' would be darker than the background.
             bool fullscreen = !SelectedValue<bool>(ScreenModeList);
-            bool dark = Theme.Current.IsDark;
+            Color disabled = Theme.Current.IsDark ? Theme.Current.DisabledText
+                : SystemInformation.HighContrast ? SystemColors.GrayText : SystemColors.ControlDark;
             FrequencyList.Enabled = fullscreen;
-            FrequencyLabel.Enabled = fullscreen || dark;
-            FrequencyLabel.ForeColor = fullscreen || !dark ? Color.Empty : Theme.Current.DisabledText;
+            FrequencyLabel.ForeColor = fullscreen ? Color.Empty : disabled;
 
             MusicValueLabel.Text = MusicBar.Value + "%";
             EffectsValueLabel.Text = EffectsBar.Value * 100 / EffectsBar.Maximum + "%";
@@ -221,6 +296,9 @@ namespace MT2Config
             ForeColor = theme.IsDark ? theme.Text : Color.Empty;
             ApplyTheme(Controls, theme);
             ResumeLayout();
+
+            // Native tooltips ignore BackColor; in the dark theme they are drawn here.
+            HelpToolTip.OwnerDraw = theme.IsDark;
 
             UpdateControlStates();
             ApplyTitleBarTheme();
@@ -296,6 +374,26 @@ namespace MT2Config
             {
                 // Not running on Windows.
             }
+        }
+
+        void HelpToolTip_Popup(object sender, PopupEventArgs e)
+        {
+            if (!HelpToolTip.OwnerDraw)
+                return;
+
+            Size text = TextRenderer.MeasureText(HelpToolTip.GetToolTip(e.AssociatedControl), Font, Size.Empty, TextFormatFlags.NoPrefix);
+            e.ToolTipSize = new Size(text.Width + 2 * TipPadding, text.Height + 2 * TipPadding);
+        }
+
+        void HelpToolTip_Draw(object sender, DrawToolTipEventArgs e)
+        {
+            Theme theme = Theme.Current;
+            using (var brush = new SolidBrush(theme.Surface))
+                e.Graphics.FillRectangle(brush, e.Bounds);
+            using (var pen = new Pen(theme.Border))
+                e.Graphics.DrawRectangle(pen, e.Bounds.X, e.Bounds.Y, e.Bounds.Width - 1, e.Bounds.Height - 1);
+            TextRenderer.DrawText(e.Graphics, e.ToolTipText, Font, Rectangle.Inflate(e.Bounds, -TipPadding, -TipPadding), theme.Text,
+                TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.NoPrefix);
         }
 
         bool SaveConfig()

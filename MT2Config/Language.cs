@@ -80,6 +80,31 @@ namespace MT2Config
         public string LaunchFailed { get; private set; }    // {0} path, {1} error
         public string UnexpectedError { get; private set; } // {0} exception
 
+        // Tooltips: what each option does.
+        public string TipScreenMode { get; private set; }
+        public string TipResolution { get; private set; }
+        public string TipRefreshRate { get; private set; }   // {0} GameClient.MaxRefreshRate
+        public string TipGamma { get; private set; }         // {0} default gamma (ClientConfig)
+        public string TipViewDistance { get; private set; }
+        public string TipShadows { get; private set; }
+        public string TipTiling { get; private set; }
+        public string TipObjectCulling { get; private set; }
+        public string TipSoftwareCursor { get; private set; }
+        public string TipDecompressedTextures { get; private set; }
+        public string TipMusic { get; private set; }
+        public string TipEffects { get; private set; }
+        public string TipShowChat { get; private set; }
+        public string TipAlwaysShowNames { get; private set; }
+        public string TipShowDamage { get; private set; }
+        public string TipShowShopTitles { get; private set; }
+        public string TipWindowsIme { get; private set; }
+        public string TipLanguage { get; private set; }
+        public string TipDarkMode { get; private set; }
+        public string TipDefaults { get; private set; }
+        public string TipSaveAndPlay { get; private set; }   // {0} game executable file name
+        public string TipSave { get; private set; }
+        public string TipCancel { get; private set; }
+
         public static Language Find(string code)
         {
             return All.FirstOrDefault(language => string.Equals(language.Code, code, StringComparison.OrdinalIgnoreCase));

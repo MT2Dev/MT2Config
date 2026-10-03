@@ -38,7 +38,7 @@ namespace MT2Config
         public Color Border { get; private set; }
         public Color BorderHover { get; private set; }
         public Color Text { get; private set; }
-        public Color DisabledText { get; private set; }   // dark only, light uses the native disabled look
+        public Color DisabledText { get; private set; }   // dark only, light uses the native disabled colors
         public Color Accent { get; private set; }         // focus border, checked check boxes
         public Color AccentText { get; private set; }
 

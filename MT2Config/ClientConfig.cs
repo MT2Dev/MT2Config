@@ -142,20 +142,25 @@ namespace MT2Config
         }
 
         // Same formats as CPythonSystem::SaveConfig(). Unlike the client, every key is written explicitly
-        // (SaveConfig() skips WINDOWED, VIEW_CHAT, ... when they hold their default value).
+        // (SaveConfig() skips WINDOWED, VIEW_CHAT, ... when they hold their default value). Keys of options hidden in
+        // the window (GameClient.Show*) are not written, so their text in the file stays exactly as it was.
         void WriteEntries()
         {
             Set("WIDTH", Width);
             Set("HEIGHT", Height);
             Set("FREQUENCY", Frequency);
             Set("SOFTWARE_CURSOR", SoftwareCursor);
-            Set("OBJECT_CULLING", ObjectCulling);
-            Set("VISIBILITY", Visibility);
+            if (GameClient.ShowObjectCulling)
+                Set("OBJECT_CULLING", ObjectCulling);
+            if (GameClient.ShowViewDistance)
+                Set("VISIBILITY", Visibility);
             // "%.3f": a value without a '.' is read as the old 0-5 scale ("1" would mean ~16% volume).
             Set("MUSIC_VOLUME", MusicVolume.ToString("0.000", CultureInfo.InvariantCulture));
             Set("VOICE_VOLUME", VoiceVolume);
-            Set("GAMMA", Gamma);
-            Set("DECOMPRESSED_TEXTURE", DecompressedTexture);
+            if (GameClient.ShowGamma)
+                Set("GAMMA", Gamma);
+            if (GameClient.ShowDecompressedTextures)
+                Set("DECOMPRESSED_TEXTURE", DecompressedTexture);
             Set("WINDOWED", Windowed);
             Set("VIEW_CHAT", ViewChat);
             Set("ALWAYS_VIEW_NAME", AlwaysShowName);
