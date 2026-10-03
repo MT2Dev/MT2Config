@@ -414,7 +414,7 @@ antivirus vendor.
 
 MT2Config is licensed under the [GNU General Public License v3.0](LICENSE). The original version was written by
 Takuma (work.takuma@gmail.com). This fork rewrites it for client compatibility and a modern toolchain, and adds the
-languages, dark mode and tooltips.
+languages, dark mode and tooltips etc. Maded by MT2Dev with Claude Opus 5.5 AI support.
 
 If you distribute `config.exe`, for example with your game client, the GPL requires two things:
 
