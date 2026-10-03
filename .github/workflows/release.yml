@@ -1,9 +1,17 @@
 name: Release
 
-# Pushing a tag such as v1.0.0 builds config.exe with that version and creates a draft release with it.
+# Builds config.exe with the release version and creates a draft release with it. Started either
+# - from the Actions tab ("Run workflow", enter a version such as 1.0.0): the tag vX.Y.Z is created on the built
+#   commit when the draft is published, or
+# - by pushing a tag such as v1.0.0.
 # Publish the draft on the Releases page after checking it.
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release, for example 1.0.0'
+        required: true
   push:
     tags:
       - 'v*'
@@ -21,18 +29,26 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      - name: Build
+      - name: Version
+        id: version
         shell: pwsh
         run: |
-          $version = '${{ github.ref_name }}'.TrimStart('v')
-          dotnet build MT2Config.slnx -c Release "-p:Version=$version"
+          $version = if ('${{ github.event_name }}' -eq 'workflow_dispatch') { '${{ inputs.version }}' } else { '${{ github.ref_name }}' }
+          $version = $version.Trim().TrimStart('v')
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "The version must look like 1.2.3, got '$version'." }
+          "number=$version" >> $env:GITHUB_OUTPUT
+          "tag=v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Build
+        shell: pwsh
+        run: dotnet build MT2Config.slnx -c Release "-p:Version=${{ steps.version.outputs.number }}"
 
       - name: Create draft release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $tag = '${{ github.ref_name }}'
+          $tag = '${{ steps.version.outputs.tag }}'
           $exe = 'MT2Config/bin/Release/config.exe'
           $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
           $notes = ".github/release-notes/$tag.md"
@@ -41,4 +57,7 @@ jobs:
           } else {
             "SHA-256 of config.exe: ``$hash``" | Set-Content release-notes.md -Encoding utf8
           }
-          gh release create $tag $exe --draft --verify-tag --title "MT2Config $tag" --notes-file release-notes.md
+          # A pushed tag already points at this commit; otherwise the tag is created on it when the draft is published.
+          $tagOption = @('--verify-tag')
+          if ('${{ github.event_name }}' -eq 'workflow_dispatch') { $tagOption = @('--target', '${{ github.sha }}') }
+          gh release create $tag $exe --draft @tagOption --title "MT2Config $tag" --notes-file release-notes.md

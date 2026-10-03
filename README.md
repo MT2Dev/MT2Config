@@ -333,24 +333,26 @@ directly.
 
 ## Releases
 
-`.github/workflows/release.yml` turns a version tag into a draft release:
+`.github/workflows/release.yml` builds `config.exe` with the release version (file version `X.Y.Z.0`) and creates a
+**draft** release with `config.exe` attached.
 
-1. Optionally write the release notes into `.github/release-notes/<tag>.md`, for example
+1. Optionally write the release notes into `.github/release-notes/vX.Y.Z.md`, for example
    `.github/release-notes/v1.1.0.md`. A `{SHA256}` placeholder in it is replaced with the checksum of `config.exe`.
    Without a notes file, the release only lists the checksum.
-2. Push a tag of the form `vX.Y.Z`:
+2. Start the workflow in one of two ways:
+   - **Actions tab:** choose **Release**, then **Run workflow**, and enter the version (for example `1.1.0`). The tag
+     `v1.1.0` is created on the built commit when you publish the draft.
+   - **Tag:** push a tag of the form `vX.Y.Z`:
 
-   ```
-   git tag -a v1.1.0 -m "MT2Config 1.1.0"
-   git push origin v1.1.0
-   ```
+     ```
+     git tag -a v1.1.0 -m "MT2Config 1.1.0"
+     git push origin v1.1.0
+     ```
 
-3. The workflow builds `config.exe` on Windows with the version taken from the tag (file version `X.Y.Z.0`) and
-   creates a **draft** release with `config.exe` attached. GitHub adds the source code archives of the tag itself.
-4. Check the draft on the [Releases](https://github.com/MT2Dev/MT2Config/releases) page and click **Publish release**.
+3. Check the draft on the [Releases](https://github.com/MT2Dev/MT2Config/releases) page and click **Publish release**.
 
-The source code archives of each release also cover the GPL requirement to make the source of the shipped version
-available.
+GitHub attaches the source code archives of the tag to every published release, which also covers the GPL
+requirement to make the source of the shipped version available.
 
 ## Project structure
 
@@ -374,7 +376,7 @@ MT2Config/
   UserSettings.cs              The tool's own settings in HKCU
   NativeMethods.cs             Win32 declarations
 .github/workflows/build.yml    GitHub Actions build of every push and pull request
-.github/workflows/release.yml  Draft release with config.exe for every vX.Y.Z tag
+.github/workflows/release.yml  Draft release with config.exe (Actions tab or vX.Y.Z tag)
 .github/release-notes/         Release notes per tag
 ```
 
