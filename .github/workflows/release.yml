@@ -1,0 +1,44 @@
+name: Release
+
+# Pushing a tag such as v1.0.0 builds config.exe with that version and creates a draft release with it.
+# Publish the draft on the Releases page after checking it.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        shell: pwsh
+        run: |
+          $version = '${{ github.ref_name }}'.TrimStart('v')
+          dotnet build MT2Config.slnx -c Release "-p:Version=$version"
+
+      - name: Create draft release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = '${{ github.ref_name }}'
+          $exe = 'MT2Config/bin/Release/config.exe'
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          $notes = ".github/release-notes/$tag.md"
+          if (Test-Path $notes) {
+            (Get-Content $notes -Raw).Replace('{SHA256}', $hash) | Set-Content release-notes.md -Encoding utf8
+          } else {
+            "SHA-256 of config.exe: ``$hash``" | Set-Content release-notes.md -Encoding utf8
+          }
+          gh release create $tag $exe --draft --verify-tag --title "MT2Config $tag" --notes-file release-notes.md

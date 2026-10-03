@@ -18,6 +18,7 @@ It reads and writes `metin2.cfg` with exactly the same rules as the client's own
 - [How metin2.cfg is handled](#how-metin2cfg-is-handled)
 - [Customization](#customization)
 - [Building](#building)
+- [Releases](#releases)
 - [Project structure](#project-structure)
 - [Troubleshooting](#troubleshooting)
 - [License and credits](#license-and-credits)
@@ -67,9 +68,11 @@ Whatever the tool writes, the client reads back exactly as shown in the dialog.
 
 ## Installation
 
-1. Adapt the project to your server (see [Customization](#customization)) and build it (see [Building](#building)).
-   - The `config` artifact of this repository's [GitHub Actions runs](https://github.com/MT2Dev/MT2Config/actions/workflows/build.yml)
-     is useful for a quick test. It carries this repository's version information and client executable names.
+1. Download `config.exe` from the [Releases](https://github.com/MT2Dev/MT2Config/releases) page, or adapt the
+   project to your server (see [Customization](#customization)) and build it (see [Building](#building)).
+   - The release and the `config` artifact of this repository's
+     [GitHub Actions runs](https://github.com/MT2Dev/MT2Config/actions/workflows/build.yml) carry this repository's
+     version information and client executable names.
    - In a fork, GitHub keeps the workflows disabled until you enable them once in the **Actions** tab.
 2. Put `config.exe` into the client folder, next to the client executable and `metin2.cfg`.
    - The tool always edits the `metin2.cfg` in the folder that contains `config.exe`, whatever its working directory
@@ -325,7 +328,29 @@ directly.
 
 **Continuous integration**
 
-`.github/workflows/build.yml` builds every push and pull request on Windows and uploads `config.exe` as an artifact.
+`.github/workflows/build.yml` builds every push to a branch and every pull request on Windows, and uploads
+`config.exe` as an artifact.
+
+## Releases
+
+`.github/workflows/release.yml` turns a version tag into a draft release:
+
+1. Optionally write the release notes into `.github/release-notes/<tag>.md`, for example
+   `.github/release-notes/v1.1.0.md`. A `{SHA256}` placeholder in it is replaced with the checksum of `config.exe`.
+   Without a notes file, the release only lists the checksum.
+2. Push a tag of the form `vX.Y.Z`:
+
+   ```
+   git tag -a v1.1.0 -m "MT2Config 1.1.0"
+   git push origin v1.1.0
+   ```
+
+3. The workflow builds `config.exe` on Windows with the version taken from the tag (file version `X.Y.Z.0`) and
+   creates a **draft** release with `config.exe` attached. GitHub adds the source code archives of the tag itself.
+4. Check the draft on the [Releases](https://github.com/MT2Dev/MT2Config/releases) page and click **Publish release**.
+
+The source code archives of each release also cover the GPL requirement to make the source of the shipped version
+available.
 
 ## Project structure
 
@@ -348,7 +373,9 @@ MT2Config/
   ThemedControls.cs            Combo box, check box and group box with dark drawing
   UserSettings.cs              The tool's own settings in HKCU
   NativeMethods.cs             Win32 declarations
-.github/workflows/build.yml    GitHub Actions build
+.github/workflows/build.yml    GitHub Actions build of every push and pull request
+.github/workflows/release.yml  Draft release with config.exe for every vX.Y.Z tag
+.github/release-notes/         Release notes per tag
 ```
 
 ## Troubleshooting
