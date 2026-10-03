@@ -14,9 +14,13 @@ Metin2 client'ı için `config.exe` ayar aracı. `metin2.cfg` dosyasını client
   - Dosyada olmayan anahtarlar client'ın varsayılanlarıyla yorumlanır.
 - **Gerçek ekran modları:** Çözünürlük ve yenileme hızı listeleri monitörün desteklediği modlardan (`EnumDisplaySettings`) gelir.
   - Listede olmayan bir değer silinmez, *(özel)* olarak gösterilir.
-- **Türkçe ve İngilizce arayüz:**
+  - Yenileme hızı client'ın desteklediği **en fazla 60 Hz** ile sınırlıdır. Daha hızlı modlar listelenmez, `metin2.cfg` içindeki daha yüksek bir değer 60 Hz'e düşürülür.
+- **13 dilde arayüz:** Türkçe, İngilizce, Danca, Almanca, İspanyolca, Fransızca, İtalyanca, Macarca, Felemenkçe, Portekizce, Rumence, Yunanca ve Rusça.
   - Dil Windows'a göre seçilir ve pencereden değiştirilebilir.
-  - Seçim `HKCU\Software\MT2Config` altında hatırlanır.
+- **Karanlık mod:** Pencereden açılıp kapatılır, anında uygulanır.
+  - İlk açılışta Windows'un uygulama modu (açık/koyu) izlenir.
+  - Windows 10 (1809+) ve 11'de başlık çubuğu da koyulaşır.
+- Dil ve karanlık mod seçimi `HKCU\Software\MT2Config` altında hatırlanır (yönetici izni gerekmez).
 - **Ek seçenekler:**
   - Tüm gölge seviyeleri (0-5)
   - Görünmeyen nesneleri gizleme (culling)
@@ -54,9 +58,11 @@ Her push'ta GitHub Actions da derleme yapar. `config.exe`, çalıştırmanın sa
 
 | Dosya | Ne değişir |
 |---|---|
-| `MT2Config/GameClient.cs` | Pencere başlığındaki oyun adı ve "Kaydet ve Oyna"nın arayacağı client exe isimleri |
+| `MT2Config/GameClient.cs` | Pencere başlığındaki oyun adı, "Kaydet ve Oyna"nın arayacağı client exe isimleri ve client'ın desteklediği en yüksek yenileme hızı (`MaxRefreshRate`, 60) |
 | `MT2Config/ClientConfig.cs` | Varsayılan değerler. Client'ınızdaki `SetDefaultConfig()` ve `DEFAULT_VALUE_ALWAYS_SHOW_NAME` ile **aynı olmalıdır**, çünkü `SaveConfig()` varsayılan değerdeki `WINDOWED`, `VIEW_CHAT`, `ALWAYS_VIEW_NAME`, `SHOW_DAMAGE`, `SHOW_SALESTEXT` anahtarlarını dosyaya yazmaz. |
-| `MT2Config/Language.cs` | Metinler. Yeni dil eklemek için bir örneği kopyalayıp çevirin ve `All` listesine ekleyin. |
+| `MT2Config/Languages/*.cs` | Her dilin metinleri. Yeni dil eklemek için `English.cs`'i kopyalayıp çevirin, `Language.cs` içine bir alan ekleyin ve dili `All` listesine yazın. |
+| `MT2Config/Theme.cs` | Karanlık modun renkleri |
+| `MT2Config/MT2Config.csproj` | Dosya özelliklerinde görünen sürüm bilgileri (`Company`, `Product`, `AssemblyTitle`, `Copyright`, `Version`) |
 
 ### Yeni bir cfg anahtarı eklemek
 
@@ -67,7 +73,7 @@ Client'ın `LoadConfig/SaveConfig` fonksiyonlarına yeni bir anahtar eklediyseni
    - `ReadEntries()` ve `WriteEntries()` içine okuma/yazma satırını ekleyin,
    - anahtarı `SaveOrder` listesine ekleyin.
 2. `MainForm`'a bir kontrol ekleyin ve onu `ShowConfig()` / `ReadConfig()` içinde bağlayın.
-3. Metnini `Language.cs` içine ekleyin.
+3. Metnini `Language.cs` içine özellik olarak, çevirilerini de `Languages/*.cs` dosyalarına ekleyin.
 
 Arayüzde göstermeyecekseniz hiçbir şey yapmanıza gerek yok: araç bilinmeyen anahtarları zaten korur.
 
@@ -95,12 +101,14 @@ GPL-3.0. İlk sürüm Takuma (work.takuma@gmail.com) tarafından yazılmıştır
   - Numbers are written culture-invariant.
   - Missing keys mean the client defaults.
 - **Display modes:** Resolutions and refresh rates are queried from the monitor.
-- **Languages:** Turkish and English UI, selectable at runtime.
+- **Refresh rate:** Limited to the 60 Hz the client supports.
+- **13 UI languages:** Turkish, English, Danish, German, Spanish, French, Italian, Hungarian, Dutch, Portuguese, Romanian, Greek and Russian, selectable at runtime.
+- **Dark mode:** Switchable in the window; it follows the Windows app mode on first start.
 - **"Save and Play":** Starts the client when its exe is next to `config.exe`.
 - **Single file:** `config.exe` targets .NET Framework 4.8 and runs on Windows 7 SP1+, with nothing to install on Windows 10/11.
 
 Build with Visual Studio 2026 (`MT2Config.slnx`) or `dotnet build MT2Config.slnx -c Release` on Windows.
-Server-specific settings live in `GameClient.cs` (name, client exe), `ClientConfig.cs` (defaults, keep them in
-sync with the client's `SetDefaultConfig()`) and `Language.cs` (texts).
+Server-specific settings live in `GameClient.cs` (name, client exe, refresh rate limit), `ClientConfig.cs` (defaults,
+keep them in sync with the client's `SetDefaultConfig()`), `Languages/*.cs` (texts) and `Theme.cs` (dark colors).
 
 Licensed under GPL-3.0, originally written by Takuma.

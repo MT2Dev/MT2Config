@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateTurkish() => new Language
+        {
+            Code = "tr",
+            Name = "Türkçe",
+            Title = "Ayarlar",
+            Display = "Ekran",
+            ScreenMode = "Ekran modu",
+            Windowed = "Pencere",
+            Fullscreen = "Tam ekran",
+            Resolution = "Çözünürlük",
+            RefreshRate = "Yenileme hızı",
+            Gamma = "Gama",
+            Graphics = "Grafik",
+            ViewDistance = "Görüş mesafesi",
+            ViewDistances = new[] { "Yakın", "Orta", "Uzak" },
+            Shadows = "Gölgeler",
+            ShadowLevels = new[] { "Kapalı", "Sadece zemin", "Zemin ve karakterin", "Tümü", "Tümü (yüksek)", "Tümü (maksimum)" },
+            Tiling = "Arazi işleme",
+            TilingModes = new[] { "Otomatik", "CPU (yazılım)", "GPU (donanım)" },
+            ObjectCulling = "Görünmeyen nesneleri gizle",
+            SoftwareCursor = "Yazılımsal imleç",
+            DecompressedTextures = "Sıkıştırılmamış dokular",
+            Sound = "Ses",
+            Music = "Müzik",
+            Effects = "Efektler",
+            Interface = "Arayüz",
+            ShowChat = "Sohbeti göster",
+            AlwaysShowNames = "İsimleri her zaman göster",
+            ShowDamage = "Hasarı göster",
+            ShowShopTitles = "Pazar başlıklarını göster",
+            WindowsIme = "Windows IME kullan",
+            LanguageLabel = "Dil",
+            DarkMode = "Karanlık mod",
+            Defaults = "Varsayılan",
+            SaveAndPlay = "Kaydet ve Oyna",
+            Save = "Kaydet",
+            Cancel = "İptal",
+            Custom = "özel",
+            Error = "Hata",
+            LoadFailed = "{0} okunamadı, varsayılan ayarlar gösteriliyor.\n\n{1}",
+            SaveFailed = "Ayarlar kaydedilemedi:\n{0}\n\n{1}\n\nOyun \"Program Files\" altında kuruluysa config.exe'yi yönetici olarak çalıştırın.",
+            LaunchFailed = "Oyun başlatılamadı:\n{0}\n\n{1}",
+            UnexpectedError = "Beklenmeyen hata:\n\n{0}",
+        };
+    }
+}

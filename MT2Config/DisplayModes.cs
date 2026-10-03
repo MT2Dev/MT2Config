@@ -23,7 +23,7 @@ namespace MT2Config
         public override string ToString() => Width + " × " + Height;
     }
 
-    /// <summary>Resolutions and refresh rates the primary monitor supports.</summary>
+    /// <summary>Resolutions and refresh rates (up to <see cref="GameClient.MaxRefreshRate"/>) the primary monitor supports.</summary>
     internal sealed class DisplayModes
     {
         // The client's interface needs at least 800x600.
@@ -70,13 +70,17 @@ namespace MT2Config
             if (result.modes.Count == 0)
             {
                 foreach (Resolution resolution in FallbackResolutions)
-                    result.Add(resolution, 60);
+                    result.Add(resolution, GameClient.MaxRefreshRate);
             }
             return result;
         }
 
         void Add(Resolution resolution, int frequency)
         {
+            // Modes the client cannot use are left out; a resolution offered only above the limit is not listed at all.
+            if (frequency > GameClient.MaxRefreshRate)
+                return;
+
             SortedSet<int> frequencies;
             if (!modes.TryGetValue(resolution, out frequencies))
                 modes.Add(resolution, frequencies = new SortedSet<int>());

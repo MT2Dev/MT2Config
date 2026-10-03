@@ -29,28 +29,29 @@
         private void InitializeComponent()
         {
             this.RootLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.DisplayBox = new System.Windows.Forms.GroupBox();
+            this.GroupsLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.DisplayBox = new MT2Config.ThemedGroupBox();
             this.DisplayLayout = new System.Windows.Forms.TableLayoutPanel();
             this.ScreenModeLabel = new System.Windows.Forms.Label();
-            this.ScreenModeList = new System.Windows.Forms.ComboBox();
+            this.ScreenModeList = new MT2Config.ThemedComboBox();
             this.ResolutionLabel = new System.Windows.Forms.Label();
-            this.ResolutionList = new System.Windows.Forms.ComboBox();
+            this.ResolutionList = new MT2Config.ThemedComboBox();
             this.FrequencyLabel = new System.Windows.Forms.Label();
-            this.FrequencyList = new System.Windows.Forms.ComboBox();
+            this.FrequencyList = new MT2Config.ThemedComboBox();
             this.GammaLabel = new System.Windows.Forms.Label();
-            this.GammaList = new System.Windows.Forms.ComboBox();
-            this.GraphicsBox = new System.Windows.Forms.GroupBox();
+            this.GammaList = new MT2Config.ThemedComboBox();
+            this.GraphicsBox = new MT2Config.ThemedGroupBox();
             this.GraphicsLayout = new System.Windows.Forms.TableLayoutPanel();
             this.VisibilityLabel = new System.Windows.Forms.Label();
-            this.VisibilityList = new System.Windows.Forms.ComboBox();
+            this.VisibilityList = new MT2Config.ThemedComboBox();
             this.ShadowLabel = new System.Windows.Forms.Label();
-            this.ShadowList = new System.Windows.Forms.ComboBox();
+            this.ShadowList = new MT2Config.ThemedComboBox();
             this.TilingLabel = new System.Windows.Forms.Label();
-            this.TilingList = new System.Windows.Forms.ComboBox();
-            this.ObjectCullingCheck = new System.Windows.Forms.CheckBox();
-            this.SoftwareCursorCheck = new System.Windows.Forms.CheckBox();
-            this.DecompressedTextureCheck = new System.Windows.Forms.CheckBox();
-            this.SoundBox = new System.Windows.Forms.GroupBox();
+            this.TilingList = new MT2Config.ThemedComboBox();
+            this.ObjectCullingCheck = new MT2Config.ThemedCheckBox();
+            this.SoftwareCursorCheck = new MT2Config.ThemedCheckBox();
+            this.DecompressedTextureCheck = new MT2Config.ThemedCheckBox();
+            this.SoundBox = new MT2Config.ThemedGroupBox();
             this.SoundLayout = new System.Windows.Forms.TableLayoutPanel();
             this.MusicLabel = new System.Windows.Forms.Label();
             this.MusicBar = new System.Windows.Forms.TrackBar();
@@ -58,21 +59,23 @@
             this.EffectsLabel = new System.Windows.Forms.Label();
             this.EffectsBar = new System.Windows.Forms.TrackBar();
             this.EffectsValueLabel = new System.Windows.Forms.Label();
-            this.InterfaceBox = new System.Windows.Forms.GroupBox();
+            this.InterfaceBox = new MT2Config.ThemedGroupBox();
             this.InterfaceLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.ViewChatCheck = new System.Windows.Forms.CheckBox();
-            this.AlwaysShowNameCheck = new System.Windows.Forms.CheckBox();
-            this.ShowDamageCheck = new System.Windows.Forms.CheckBox();
-            this.ShowSalesTextCheck = new System.Windows.Forms.CheckBox();
-            this.DefaultImeCheck = new System.Windows.Forms.CheckBox();
+            this.ViewChatCheck = new MT2Config.ThemedCheckBox();
+            this.AlwaysShowNameCheck = new MT2Config.ThemedCheckBox();
+            this.ShowDamageCheck = new MT2Config.ThemedCheckBox();
+            this.ShowSalesTextCheck = new MT2Config.ThemedCheckBox();
+            this.DefaultImeCheck = new MT2Config.ThemedCheckBox();
             this.ButtonLayout = new System.Windows.Forms.TableLayoutPanel();
             this.LanguageLabel = new System.Windows.Forms.Label();
-            this.LanguageList = new System.Windows.Forms.ComboBox();
+            this.LanguageList = new MT2Config.ThemedComboBox();
+            this.DarkModeCheck = new MT2Config.ThemedCheckBox();
             this.DefaultsButton = new System.Windows.Forms.Button();
             this.SaveAndPlayButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
             this.RootLayout.SuspendLayout();
+            this.GroupsLayout.SuspendLayout();
             this.DisplayBox.SuspendLayout();
             this.DisplayLayout.SuspendLayout();
             this.GraphicsBox.SuspendLayout();
@@ -90,24 +93,39 @@
             //
             this.RootLayout.AutoSize = true;
             this.RootLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.RootLayout.ColumnCount = 2;
-            this.RootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.RootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.RootLayout.Controls.Add(this.DisplayBox, 0, 0);
-            this.RootLayout.Controls.Add(this.GraphicsBox, 1, 0);
-            this.RootLayout.Controls.Add(this.SoundBox, 0, 1);
-            this.RootLayout.Controls.Add(this.InterfaceBox, 1, 1);
-            this.RootLayout.Controls.Add(this.ButtonLayout, 0, 2);
+            this.RootLayout.ColumnCount = 1;
+            this.RootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.RootLayout.Controls.Add(this.GroupsLayout, 0, 0);
+            this.RootLayout.Controls.Add(this.ButtonLayout, 0, 1);
             this.RootLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RootLayout.Location = new System.Drawing.Point(9, 9);
             this.RootLayout.Name = "RootLayout";
-            this.RootLayout.RowCount = 3;
-            this.RootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.RootLayout.RowCount = 2;
             this.RootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.RootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.RootLayout.Size = new System.Drawing.Size(626, 360);
             this.RootLayout.TabIndex = 0;
-            this.RootLayout.SetColumnSpan(this.ButtonLayout, 2);
+            //
+            // GroupsLayout
+            //
+            this.GroupsLayout.AutoSize = true;
+            this.GroupsLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.GroupsLayout.ColumnCount = 2;
+            this.GroupsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.GroupsLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.GroupsLayout.Controls.Add(this.DisplayBox, 0, 0);
+            this.GroupsLayout.Controls.Add(this.GraphicsBox, 1, 0);
+            this.GroupsLayout.Controls.Add(this.SoundBox, 0, 1);
+            this.GroupsLayout.Controls.Add(this.InterfaceBox, 1, 1);
+            this.GroupsLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GroupsLayout.Location = new System.Drawing.Point(0, 0);
+            this.GroupsLayout.Margin = new System.Windows.Forms.Padding(0);
+            this.GroupsLayout.Name = "GroupsLayout";
+            this.GroupsLayout.RowCount = 2;
+            this.GroupsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.GroupsLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.GroupsLayout.Size = new System.Drawing.Size(626, 321);
+            this.GroupsLayout.TabIndex = 0;
             //
             // DisplayBox
             //
@@ -558,7 +576,8 @@
             //
             this.ButtonLayout.AutoSize = true;
             this.ButtonLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ButtonLayout.ColumnCount = 7;
+            this.ButtonLayout.ColumnCount = 8;
+            this.ButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.ButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.ButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.ButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -568,10 +587,11 @@
             this.ButtonLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.ButtonLayout.Controls.Add(this.LanguageLabel, 0, 0);
             this.ButtonLayout.Controls.Add(this.LanguageList, 1, 0);
-            this.ButtonLayout.Controls.Add(this.DefaultsButton, 3, 0);
-            this.ButtonLayout.Controls.Add(this.SaveAndPlayButton, 4, 0);
-            this.ButtonLayout.Controls.Add(this.SaveButton, 5, 0);
-            this.ButtonLayout.Controls.Add(this.ExitButton, 6, 0);
+            this.ButtonLayout.Controls.Add(this.DarkModeCheck, 2, 0);
+            this.ButtonLayout.Controls.Add(this.DefaultsButton, 4, 0);
+            this.ButtonLayout.Controls.Add(this.SaveAndPlayButton, 5, 0);
+            this.ButtonLayout.Controls.Add(this.SaveButton, 6, 0);
+            this.ButtonLayout.Controls.Add(this.ExitButton, 7, 0);
             this.ButtonLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonLayout.Location = new System.Drawing.Point(0, 327);
             this.ButtonLayout.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -579,7 +599,7 @@
             this.ButtonLayout.RowCount = 1;
             this.ButtonLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.ButtonLayout.Size = new System.Drawing.Size(626, 33);
-            this.ButtonLayout.TabIndex = 4;
+            this.ButtonLayout.TabIndex = 1;
             //
             // LanguageLabel
             //
@@ -602,6 +622,19 @@
             this.LanguageList.TabIndex = 1;
             this.LanguageList.SelectedIndexChanged += new System.EventHandler(this.LanguageList_SelectedIndexChanged);
             //
+            // DarkModeCheck
+            //
+            this.DarkModeCheck.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.DarkModeCheck.AutoSize = true;
+            this.DarkModeCheck.Location = new System.Drawing.Point(183, 7);
+            this.DarkModeCheck.Margin = new System.Windows.Forms.Padding(12, 3, 3, 3);
+            this.DarkModeCheck.Name = "DarkModeCheck";
+            this.DarkModeCheck.Size = new System.Drawing.Size(80, 19);
+            this.DarkModeCheck.TabIndex = 2;
+            this.DarkModeCheck.Text = "Dark mode";
+            this.DarkModeCheck.UseVisualStyleBackColor = true;
+            this.DarkModeCheck.CheckedChanged += new System.EventHandler(this.DarkModeCheck_CheckedChanged);
+            //
             // DefaultsButton
             //
             this.DefaultsButton.AutoSize = true;
@@ -609,7 +642,7 @@
             this.DefaultsButton.MinimumSize = new System.Drawing.Size(90, 27);
             this.DefaultsButton.Name = "DefaultsButton";
             this.DefaultsButton.Size = new System.Drawing.Size(90, 27);
-            this.DefaultsButton.TabIndex = 2;
+            this.DefaultsButton.TabIndex = 3;
             this.DefaultsButton.Text = "Defaults";
             this.DefaultsButton.UseVisualStyleBackColor = true;
             this.DefaultsButton.Click += new System.EventHandler(this.DefaultsButton_Click);
@@ -621,7 +654,7 @@
             this.SaveAndPlayButton.MinimumSize = new System.Drawing.Size(90, 27);
             this.SaveAndPlayButton.Name = "SaveAndPlayButton";
             this.SaveAndPlayButton.Size = new System.Drawing.Size(96, 27);
-            this.SaveAndPlayButton.TabIndex = 3;
+            this.SaveAndPlayButton.TabIndex = 4;
             this.SaveAndPlayButton.Text = "Save and Play";
             this.SaveAndPlayButton.UseVisualStyleBackColor = true;
             this.SaveAndPlayButton.Click += new System.EventHandler(this.SaveAndPlayButton_Click);
@@ -633,7 +666,7 @@
             this.SaveButton.MinimumSize = new System.Drawing.Size(90, 27);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(90, 27);
-            this.SaveButton.TabIndex = 4;
+            this.SaveButton.TabIndex = 5;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
@@ -645,7 +678,7 @@
             this.ExitButton.MinimumSize = new System.Drawing.Size(90, 27);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(90, 27);
-            this.ExitButton.TabIndex = 5;
+            this.ExitButton.TabIndex = 6;
             this.ExitButton.Text = "Cancel";
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
@@ -669,6 +702,8 @@
             this.Text = "Metin2 - Settings";
             this.RootLayout.ResumeLayout(false);
             this.RootLayout.PerformLayout();
+            this.GroupsLayout.ResumeLayout(false);
+            this.GroupsLayout.PerformLayout();
             this.DisplayBox.ResumeLayout(false);
             this.DisplayBox.PerformLayout();
             this.DisplayLayout.ResumeLayout(false);
@@ -697,28 +732,29 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel RootLayout;
-        private System.Windows.Forms.GroupBox DisplayBox;
+        private System.Windows.Forms.TableLayoutPanel GroupsLayout;
+        private MT2Config.ThemedGroupBox DisplayBox;
         private System.Windows.Forms.TableLayoutPanel DisplayLayout;
         private System.Windows.Forms.Label ScreenModeLabel;
-        private System.Windows.Forms.ComboBox ScreenModeList;
+        private MT2Config.ThemedComboBox ScreenModeList;
         private System.Windows.Forms.Label ResolutionLabel;
-        private System.Windows.Forms.ComboBox ResolutionList;
+        private MT2Config.ThemedComboBox ResolutionList;
         private System.Windows.Forms.Label FrequencyLabel;
-        private System.Windows.Forms.ComboBox FrequencyList;
+        private MT2Config.ThemedComboBox FrequencyList;
         private System.Windows.Forms.Label GammaLabel;
-        private System.Windows.Forms.ComboBox GammaList;
-        private System.Windows.Forms.GroupBox GraphicsBox;
+        private MT2Config.ThemedComboBox GammaList;
+        private MT2Config.ThemedGroupBox GraphicsBox;
         private System.Windows.Forms.TableLayoutPanel GraphicsLayout;
         private System.Windows.Forms.Label VisibilityLabel;
-        private System.Windows.Forms.ComboBox VisibilityList;
+        private MT2Config.ThemedComboBox VisibilityList;
         private System.Windows.Forms.Label ShadowLabel;
-        private System.Windows.Forms.ComboBox ShadowList;
+        private MT2Config.ThemedComboBox ShadowList;
         private System.Windows.Forms.Label TilingLabel;
-        private System.Windows.Forms.ComboBox TilingList;
-        private System.Windows.Forms.CheckBox ObjectCullingCheck;
-        private System.Windows.Forms.CheckBox SoftwareCursorCheck;
-        private System.Windows.Forms.CheckBox DecompressedTextureCheck;
-        private System.Windows.Forms.GroupBox SoundBox;
+        private MT2Config.ThemedComboBox TilingList;
+        private MT2Config.ThemedCheckBox ObjectCullingCheck;
+        private MT2Config.ThemedCheckBox SoftwareCursorCheck;
+        private MT2Config.ThemedCheckBox DecompressedTextureCheck;
+        private MT2Config.ThemedGroupBox SoundBox;
         private System.Windows.Forms.TableLayoutPanel SoundLayout;
         private System.Windows.Forms.Label MusicLabel;
         private System.Windows.Forms.TrackBar MusicBar;
@@ -726,16 +762,17 @@
         private System.Windows.Forms.Label EffectsLabel;
         private System.Windows.Forms.TrackBar EffectsBar;
         private System.Windows.Forms.Label EffectsValueLabel;
-        private System.Windows.Forms.GroupBox InterfaceBox;
+        private MT2Config.ThemedGroupBox InterfaceBox;
         private System.Windows.Forms.TableLayoutPanel InterfaceLayout;
-        private System.Windows.Forms.CheckBox ViewChatCheck;
-        private System.Windows.Forms.CheckBox AlwaysShowNameCheck;
-        private System.Windows.Forms.CheckBox ShowDamageCheck;
-        private System.Windows.Forms.CheckBox ShowSalesTextCheck;
-        private System.Windows.Forms.CheckBox DefaultImeCheck;
+        private MT2Config.ThemedCheckBox ViewChatCheck;
+        private MT2Config.ThemedCheckBox AlwaysShowNameCheck;
+        private MT2Config.ThemedCheckBox ShowDamageCheck;
+        private MT2Config.ThemedCheckBox ShowSalesTextCheck;
+        private MT2Config.ThemedCheckBox DefaultImeCheck;
         private System.Windows.Forms.TableLayoutPanel ButtonLayout;
         private System.Windows.Forms.Label LanguageLabel;
-        private System.Windows.Forms.ComboBox LanguageList;
+        private MT2Config.ThemedComboBox LanguageList;
+        private MT2Config.ThemedCheckBox DarkModeCheck;
         private System.Windows.Forms.Button DefaultsButton;
         private System.Windows.Forms.Button SaveAndPlayButton;
         private System.Windows.Forms.Button SaveButton;

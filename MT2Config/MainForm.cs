@@ -5,7 +5,7 @@
 //Copy Rights : Takuma
 //Description : Basic c# config.exe : metin2
 //Modified : 2026 MT2Dev - client compatible metin2.cfg handling,
-//           monitor display modes, Turkish/English UI
+//           monitor display modes, 13 UI languages, dark mode
 ///////////////////////////////////////////////////////////////
 
 using System;
@@ -38,6 +38,9 @@ namespace MT2Config
 
         public MainForm()
         {
+            // Before the window handle exists, so the title bar starts in the right theme.
+            Theme.Current = Theme.LoadPreferred();
+
             InitializeComponent();
 
             using (Stream icon = typeof(MainForm).Assembly.GetManifestResourceStream("MT2Config.app.ico"))
@@ -61,11 +64,21 @@ namespace MT2Config
 
             updating = true;
             LanguageList.Items.AddRange(Language.All);
+            LanguageList.MaxDropDownItems = Language.All.Length;
             LanguageList.SelectedItem = language;
+            DarkModeCheck.Checked = Theme.Current.IsDark;
+            DarkModeCheck.Enabled = Theme.IsAvailable;
             updating = false;
 
             ApplyLanguage();
             ShowConfig(config);
+            ApplyTheme();
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            ApplyTitleBarTheme();
         }
 
         void ApplyLanguage()
@@ -95,6 +108,7 @@ namespace MT2Config
             ShowSalesTextCheck.Text = language.ShowShopTitles;
             DefaultImeCheck.Text = language.WindowsIme;
             LanguageLabel.Text = language.LanguageLabel;
+            DarkModeCheck.Text = language.DarkMode;
             DefaultsButton.Text = language.Defaults;
             SaveAndPlayButton.Text = language.SaveAndPlay;
             SaveButton.Text = language.Save;
@@ -154,11 +168,14 @@ namespace MT2Config
 
         void FillFrequencies(int frequency, bool keepUnsupported)
         {
+            // Only rates up to GameClient.MaxRefreshRate are listed.
             List<int> supported = displayModes.FrequenciesOf(SelectedValue<Resolution>(ResolutionList)).ToList();
 
-            // After a resolution change: keep the rate if the new resolution has it, otherwise 60 Hz, otherwise the highest.
-            if (!keepUnsupported && supported.Count > 0 && !supported.Contains(frequency))
-                frequency = supported.Contains(60) ? 60 : supported.Max();
+            // A rate the client cannot use (above the limit, or 0 for "monitor default") is replaced by the highest
+            // supported one, as is the old rate after a resolution change that does not offer it.
+            bool usable = frequency > 1 && frequency <= GameClient.MaxRefreshRate;
+            if (!usable || (!keepUnsupported && supported.Count > 0 && !supported.Contains(frequency)))
+                frequency = supported.Count > 0 ? supported.Max() : GameClient.MaxRefreshRate;
 
             FillList(FrequencyList, supported, frequency, hz => hz + " Hz");
         }
@@ -182,13 +199,103 @@ namespace MT2Config
 
         void UpdateControlStates()
         {
-            // The refresh rate is only used in fullscreen mode.
+            // The refresh rate is only used in fullscreen mode. In the dark theme the label is greyed out by color:
+            // WinForms draws disabled labels darker than their background, which would make them invisible there.
             bool fullscreen = !SelectedValue<bool>(ScreenModeList);
-            FrequencyLabel.Enabled = fullscreen;
+            bool dark = Theme.Current.IsDark;
             FrequencyList.Enabled = fullscreen;
+            FrequencyLabel.Enabled = fullscreen || dark;
+            FrequencyLabel.ForeColor = fullscreen || !dark ? Color.Empty : Theme.Current.DisabledText;
 
             MusicValueLabel.Text = MusicBar.Value + "%";
             EffectsValueLabel.Text = EffectsBar.Value * 100 / EffectsBar.Maximum + "%";
+        }
+
+        void ApplyTheme()
+        {
+            Theme theme = Theme.Current;
+
+            SuspendLayout();
+            // Color.Empty gives the controls back their default (inherited or system) colors.
+            BackColor = theme.IsDark ? theme.Background : Color.Empty;
+            ForeColor = theme.IsDark ? theme.Text : Color.Empty;
+            ApplyTheme(Controls, theme);
+            ResumeLayout();
+
+            UpdateControlStates();
+            ApplyTitleBarTheme();
+            Invalidate(true);
+        }
+
+        // Labels, group boxes, check boxes and layout panels take the form colors; these need more.
+        static void ApplyTheme(Control.ControlCollection controls, Theme theme)
+        {
+            foreach (Control control in controls)
+            {
+                var button = control as Button;
+                var list = control as ComboBox;
+                if (button != null)
+                {
+                    if (theme.IsDark)
+                    {
+                        button.FlatStyle = FlatStyle.Flat;
+                        button.FlatAppearance.BorderColor = theme.Border;
+                        button.FlatAppearance.MouseOverBackColor = theme.SurfaceHover;
+                        button.FlatAppearance.MouseDownBackColor = theme.SurfacePressed;
+                        button.BackColor = theme.Surface;
+                        button.UseVisualStyleBackColor = false;
+                    }
+                    else
+                    {
+                        button.FlatStyle = FlatStyle.Standard;
+                        button.BackColor = Color.Empty;
+                        button.UseVisualStyleBackColor = true;
+                    }
+                }
+                else if (list != null)
+                {
+                    // Also the colors of the opened list. Light: the ComboBox defaults, set explicitly because an
+                    // empty color would make some WinForms implementations inherit the form background.
+                    list.BackColor = theme.IsDark ? theme.Surface : SystemColors.Window;
+                    list.ForeColor = theme.IsDark ? theme.Text : SystemColors.WindowText;
+                }
+                else if (control is TrackBar)
+                {
+                    // Set directly: the native track bar does not always repaint when only the inherited color changes.
+                    control.BackColor = theme.IsDark ? theme.Background : Color.Empty;
+                }
+
+                ApplyTheme(control.Controls, theme);
+            }
+        }
+
+        // Dark title bar on Windows 10 1809+ and Windows 11; older Windows reject the attribute and keep theirs.
+        void ApplyTitleBarTheme()
+        {
+            if (!IsHandleCreated)
+                return;
+
+            int dark = Theme.Current.IsDark ? 1 : 0;
+            try
+            {
+                if (NativeMethods.DwmSetWindowAttribute(Handle, NativeMethods.DWMWA_USE_IMMERSIVE_DARK_MODE, ref dark, sizeof(int)) != 0)
+                    NativeMethods.DwmSetWindowAttribute(Handle, NativeMethods.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1, ref dark, sizeof(int));
+
+                // Redraw the frame so a change shows while the window is open. Windows 10 keeps the old caption color
+                // until the activation state changes, so the caption is also redrawn inactive and back.
+                NativeMethods.SetWindowPos(Handle, IntPtr.Zero, 0, 0, 0, 0,
+                    NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOZORDER | NativeMethods.SWP_NOACTIVATE | NativeMethods.SWP_FRAMECHANGED);
+                if (Visible)
+                {
+                    bool active = ActiveForm == this;
+                    NativeMethods.SendMessage(Handle, NativeMethods.WM_NCACTIVATE, active ? IntPtr.Zero : (IntPtr)1, IntPtr.Zero);
+                    NativeMethods.SendMessage(Handle, NativeMethods.WM_NCACTIVATE, active ? (IntPtr)1 : IntPtr.Zero, IntPtr.Zero);
+                }
+            }
+            catch (Exception e) when (e is DllNotFoundException || e is EntryPointNotFoundException)
+            {
+                // Not running on Windows.
+            }
         }
 
         bool SaveConfig()
@@ -268,6 +375,16 @@ namespace MT2Config
             ReadConfig(current);
             ApplyLanguage();
             ShowConfig(current);
+        }
+
+        void DarkModeCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (updating)
+                return;
+
+            Theme.Current = DarkModeCheck.Checked ? Theme.Dark : Theme.Light;
+            Theme.Current.SaveAsPreferred();
+            ApplyTheme();
         }
 
         void DefaultsButton_Click(object sender, EventArgs e)

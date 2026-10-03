@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreatePortuguese() => new Language
+        {
+            Code = "pt",
+            Name = "Português",
+            Title = "Configurações",
+            Display = "Ecrã",
+            ScreenMode = "Modo de ecrã",
+            Windowed = "Janela",
+            Fullscreen = "Ecrã inteiro",
+            Resolution = "Resolução",
+            RefreshRate = "Taxa de atualização",
+            Gamma = "Gama",
+            Graphics = "Gráficos",
+            ViewDistance = "Distância de visão",
+            ViewDistances = new[] { "Curta", "Média", "Longa" },
+            Shadows = "Sombras",
+            ShadowLevels = new[] { "Desativadas", "Apenas terreno", "Terreno e jogador", "Todas", "Todas (alta)", "Todas (máxima)" },
+            Tiling = "Mosaico do terreno",
+            TilingModes = new[] { "Automático", "CPU (software)", "GPU (hardware)" },
+            ObjectCulling = "Ocultar objetos não visíveis",
+            SoftwareCursor = "Cursor por software",
+            DecompressedTextures = "Texturas não comprimidas",
+            Sound = "Som",
+            Music = "Música",
+            Effects = "Efeitos",
+            Interface = "Interface",
+            ShowChat = "Mostrar chat",
+            AlwaysShowNames = "Mostrar sempre os nomes",
+            ShowDamage = "Mostrar dano",
+            ShowShopTitles = "Mostrar nomes das lojas",
+            WindowsIme = "Usar IME do Windows",
+            LanguageLabel = "Idioma",
+            DarkMode = "Modo escuro",
+            Defaults = "Padrão",
+            SaveAndPlay = "Guardar e jogar",
+            Save = "Guardar",
+            Cancel = "Cancelar",
+            Custom = "personalizado",
+            Error = "Erro",
+            LoadFailed = "Não foi possível ler {0}. São apresentadas as configurações padrão.\n\n{1}",
+            SaveFailed = "Não foi possível guardar as configurações:\n{0}\n\n{1}\n\nSe o jogo estiver instalado em \"Program Files\", execute o config.exe como administrador.",
+            LaunchFailed = "Não foi possível iniciar o jogo:\n{0}\n\n{1}",
+            UnexpectedError = "Erro inesperado:\n\n{0}",
+        };
+    }
+}

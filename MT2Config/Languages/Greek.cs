@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateGreek() => new Language
+        {
+            Code = "el",
+            Name = "Ελληνικά",
+            Title = "Ρυθμίσεις",
+            Display = "Οθόνη",
+            ScreenMode = "Λειτουργία οθόνης",
+            Windowed = "Σε παράθυρο",
+            Fullscreen = "Πλήρης οθόνη",
+            Resolution = "Ανάλυση",
+            RefreshRate = "Ρυθμός ανανέωσης",
+            Gamma = "Γάμμα",
+            Graphics = "Γραφικά",
+            ViewDistance = "Απόσταση θέασης",
+            ViewDistances = new[] { "Κοντινή", "Μεσαία", "Μακρινή" },
+            Shadows = "Σκιές",
+            ShadowLevels = new[] { "Ανενεργές", "Μόνο έδαφος", "Έδαφος και ο χαρακτήρας σας", "Όλες", "Όλες (υψηλή)", "Όλες (μέγιστη)" },
+            Tiling = "Απόδοση εδάφους",
+            TilingModes = new[] { "Αυτόματα", "CPU (λογισμικό)", "GPU (υλικό)" },
+            ObjectCulling = "Απόκρυψη μη ορατών αντικειμένων",
+            SoftwareCursor = "Δρομέας λογισμικού",
+            DecompressedTextures = "Μη συμπιεσμένες υφές",
+            Sound = "Ήχος",
+            Music = "Μουσική",
+            Effects = "Εφέ",
+            Interface = "Διεπαφή",
+            ShowChat = "Εμφάνιση συνομιλίας",
+            AlwaysShowNames = "Μόνιμη εμφάνιση ονομάτων",
+            ShowDamage = "Εμφάνιση ζημιάς",
+            ShowShopTitles = "Εμφάνιση τίτλων καταστημάτων",
+            WindowsIme = "Χρήση Windows IME",
+            LanguageLabel = "Γλώσσα",
+            DarkMode = "Σκούρο θέμα",
+            Defaults = "Προεπιλογές",
+            SaveAndPlay = "Αποθήκευση και έναρξη",
+            Save = "Αποθήκευση",
+            Cancel = "Άκυρο",
+            Custom = "προσαρμοσμένο",
+            Error = "Σφάλμα",
+            LoadFailed = "Δεν ήταν δυνατή η ανάγνωση του αρχείου {0}, εμφανίζονται οι προεπιλεγμένες ρυθμίσεις.\n\n{1}",
+            SaveFailed = "Δεν ήταν δυνατή η αποθήκευση των ρυθμίσεων:\n{0}\n\n{1}\n\nΑν το παιχνίδι είναι εγκατεστημένο στον φάκελο \"Program Files\", εκτελέστε το config.exe ως διαχειριστής.",
+            LaunchFailed = "Δεν ήταν δυνατή η εκκίνηση του παιχνιδιού:\n{0}\n\n{1}",
+            UnexpectedError = "Μη αναμενόμενο σφάλμα:\n\n{0}",
+        };
+    }
+}

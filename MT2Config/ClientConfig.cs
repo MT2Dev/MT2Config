@@ -54,7 +54,7 @@ namespace MT2Config
         public int VoiceVolume { get; set; } = 5;      // 0 - 5
         public bool UseDefaultIme { get; set; } = false;
         public bool ViewChat { get; set; } = true;
-        public bool AlwaysShowName { get; set; } = true; // DEFAULT_VALUE_ALWAYS_SHOW_NAME
+        public bool AlwaysShowName { get; set; } = true; // DEFAULT_VALUE_ALWAYS_SHOW_NAME (true in the client)
         public bool ShowDamage { get; set; } = true;
         public bool ShowSalesText { get; set; } = true;
 

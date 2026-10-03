@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateRomanian() => new Language
+        {
+            Code = "ro",
+            Name = "Română",
+            Title = "Setări",
+            Display = "Afișaj",
+            ScreenMode = "Mod ecran",
+            Windowed = "În fereastră",
+            Fullscreen = "Ecran complet",
+            Resolution = "Rezoluție",
+            RefreshRate = "Frecvență",
+            Gamma = "Gamma",
+            Graphics = "Grafică",
+            ViewDistance = "Distanță vizuală",
+            ViewDistances = new[] { "Mică", "Medie", "Mare" },
+            Shadows = "Umbre",
+            ShadowLevels = new[] { "Oprite", "Doar pe sol", "Sol și propriul personaj", "Toate", "Toate (ridicat)", "Toate (maxim)" },
+            Tiling = "Randare teren",
+            TilingModes = new[] { "Automat", "CPU (software)", "GPU (hardware)" },
+            ObjectCulling = "Ascunde obiectele nevăzute",
+            SoftwareCursor = "Cursor software",
+            DecompressedTextures = "Texturi necomprimate",
+            Sound = "Sunet",
+            Music = "Muzică",
+            Effects = "Efecte",
+            Interface = "Interfață",
+            ShowChat = "Afișează chatul",
+            AlwaysShowNames = "Afișează mereu numele",
+            ShowDamage = "Afișează daunele",
+            ShowShopTitles = "Afișează titlurile magazinelor",
+            WindowsIme = "Folosește Windows IME",
+            LanguageLabel = "Limbă",
+            DarkMode = "Mod întunecat",
+            Defaults = "Valori implicite",
+            SaveAndPlay = "Salvează și joacă",
+            Save = "Salvează",
+            Cancel = "Anulează",
+            Custom = "personalizat",
+            Error = "Eroare",
+            LoadFailed = "{0} nu a putut fi citit, se afișează setările implicite.\n\n{1}",
+            SaveFailed = "Setările nu au putut fi salvate:\n{0}\n\n{1}\n\nDacă jocul este instalat în \"Program Files\", rulați config.exe ca administrator.",
+            LaunchFailed = "Jocul nu a putut fi pornit:\n{0}\n\n{1}",
+            UnexpectedError = "Eroare neașteptată:\n\n{0}",
+        };
+    }
+}

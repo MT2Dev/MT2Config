@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateRussian() => new Language
+        {
+            Code = "ru",
+            Name = "Русский",
+            Title = "Настройки",
+            Display = "Экран",
+            ScreenMode = "Режим экрана",
+            Windowed = "Оконный",
+            Fullscreen = "Полноэкранный",
+            Resolution = "Разрешение",
+            RefreshRate = "Частота обновления",
+            Gamma = "Гамма",
+            Graphics = "Графика",
+            ViewDistance = "Дальность обзора",
+            ViewDistances = new[] { "Малая", "Средняя", "Большая" },
+            Shadows = "Тени",
+            ShadowLevels = new[] { "Выкл.", "Только земля", "Земля и свой персонаж", "Все", "Все (высокие)", "Все (максимум)" },
+            Tiling = "Отрисовка ландшафта",
+            TilingModes = new[] { "Авто", "CPU (программно)", "GPU (аппаратно)" },
+            ObjectCulling = "Отсечение объектов",
+            SoftwareCursor = "Программный курсор",
+            DecompressedTextures = "Несжатые текстуры",
+            Sound = "Звук",
+            Music = "Музыка",
+            Effects = "Эффекты",
+            Interface = "Интерфейс",
+            ShowChat = "Показывать чат",
+            AlwaysShowNames = "Всегда показывать имена",
+            ShowDamage = "Показывать урон",
+            ShowShopTitles = "Показывать названия лавок",
+            WindowsIme = "Использовать Windows IME",
+            LanguageLabel = "Язык",
+            DarkMode = "Тёмная тема",
+            Defaults = "По умолчанию",
+            SaveAndPlay = "Сохранить и играть",
+            Save = "Сохранить",
+            Cancel = "Отмена",
+            Custom = "вручную",
+            Error = "Ошибка",
+            LoadFailed = "Не удалось прочитать {0}, показаны настройки по умолчанию.\n\n{1}",
+            SaveFailed = "Не удалось сохранить настройки:\n{0}\n\n{1}\n\nЕсли игра установлена в папке «Program Files», запустите config.exe от имени администратора.",
+            LaunchFailed = "Не удалось запустить игру:\n{0}\n\n{1}",
+            UnexpectedError = "Непредвиденная ошибка:\n\n{0}",
+        };
+    }
+}

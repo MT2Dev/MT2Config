@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateDanish() => new Language
+        {
+            Code = "da",
+            Name = "Dansk",
+            Title = "Indstillinger",
+            Display = "Skærm",
+            ScreenMode = "Skærmtilstand",
+            Windowed = "Vindue",
+            Fullscreen = "Fuld skærm",
+            Resolution = "Opløsning",
+            RefreshRate = "Opdateringshastighed",
+            Gamma = "Gamma",
+            Graphics = "Grafik",
+            ViewDistance = "Synsvidde",
+            ViewDistances = new[] { "Kort", "Mellem", "Lang" },
+            Shadows = "Skygger",
+            ShadowLevels = new[] { "Fra", "Kun terræn", "Terræn og egen karakter", "Alle", "Alle (høj)", "Alle (maksimum)" },
+            Tiling = "Terrænrendering",
+            TilingModes = new[] { "Auto", "CPU (software)", "GPU (hardware)" },
+            ObjectCulling = "Skjul usynlige objekter",
+            SoftwareCursor = "Softwaremarkør",
+            DecompressedTextures = "Ukomprimerede teksturer",
+            Sound = "Lyd",
+            Music = "Musik",
+            Effects = "Effekter",
+            Interface = "Brugerflade",
+            ShowChat = "Vis chat",
+            AlwaysShowNames = "Vis altid navne",
+            ShowDamage = "Vis skade",
+            ShowShopTitles = "Vis butiksnavne",
+            WindowsIme = "Brug Windows IME",
+            LanguageLabel = "Sprog",
+            DarkMode = "Mørk tilstand",
+            Defaults = "Standard",
+            SaveAndPlay = "Gem og spil",
+            Save = "Gem",
+            Cancel = "Annuller",
+            Custom = "tilpasset",
+            Error = "Fejl",
+            LoadFailed = "{0} kunne ikke læses, standardindstillingerne vises.\n\n{1}",
+            SaveFailed = "Indstillingerne kunne ikke gemmes:\n{0}\n\n{1}\n\nHvis spillet er installeret under \"Program Files\", skal du køre config.exe som administrator.",
+            LaunchFailed = "Spillet kunne ikke startes:\n{0}\n\n{1}",
+            UnexpectedError = "Uventet fejl:\n\n{0}",
+        };
+    }
+}

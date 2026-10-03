@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateFrench() => new Language
+        {
+            Code = "fr",
+            Name = "Français",
+            Title = "Paramètres",
+            Display = "Affichage",
+            ScreenMode = "Mode d'affichage",
+            Windowed = "Fenêtré",
+            Fullscreen = "Plein écran",
+            Resolution = "Résolution",
+            RefreshRate = "Fréquence",
+            Gamma = "Gamma",
+            Graphics = "Graphismes",
+            ViewDistance = "Distance de vue",
+            ViewDistances = new[] { "Courte", "Moyenne", "Longue" },
+            Shadows = "Ombres",
+            ShadowLevels = new[] { "Désactivées", "Sol uniquement", "Sol et votre personnage", "Toutes", "Toutes (qualité élevée)", "Toutes (qualité maximale)" },
+            Tiling = "Rendu du terrain",
+            TilingModes = new[] { "Auto", "CPU (logiciel)", "GPU (matériel)" },
+            ObjectCulling = "Masquer les objets hors champ",
+            SoftwareCursor = "Curseur logiciel",
+            DecompressedTextures = "Textures non compressées",
+            Sound = "Son",
+            Music = "Musique",
+            Effects = "Effets",
+            Interface = "Interface",
+            ShowChat = "Afficher le chat",
+            AlwaysShowNames = "Toujours afficher les noms",
+            ShowDamage = "Afficher les dégâts",
+            ShowShopTitles = "Afficher les noms des boutiques",
+            WindowsIme = "Utiliser l'IME Windows",
+            LanguageLabel = "Langue",
+            DarkMode = "Mode sombre",
+            Defaults = "Par défaut",
+            SaveAndPlay = "Enregistrer et jouer",
+            Save = "Enregistrer",
+            Cancel = "Annuler",
+            Custom = "personnalisé",
+            Error = "Erreur",
+            LoadFailed = "Impossible de lire {0}, les paramètres par défaut sont affichés.\n\n{1}",
+            SaveFailed = "Impossible d'enregistrer les paramètres :\n{0}\n\n{1}\n\nSi le jeu est installé dans \"Program Files\", exécutez config.exe en tant qu'administrateur.",
+            LaunchFailed = "Impossible de lancer le jeu :\n{0}\n\n{1}",
+            UnexpectedError = "Erreur inattendue :\n\n{0}",
+        };
+    }
+}

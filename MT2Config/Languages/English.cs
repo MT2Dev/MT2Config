@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateEnglish() => new Language
+        {
+            Code = "en",
+            Name = "English",
+            Title = "Settings",
+            Display = "Display",
+            ScreenMode = "Screen mode",
+            Windowed = "Windowed",
+            Fullscreen = "Fullscreen",
+            Resolution = "Resolution",
+            RefreshRate = "Refresh rate",
+            Gamma = "Gamma",
+            Graphics = "Graphics",
+            ViewDistance = "View distance",
+            ViewDistances = new[] { "Near", "Medium", "Far" },
+            Shadows = "Shadows",
+            ShadowLevels = new[] { "Off", "Ground only", "Ground and own character", "All", "All (high)", "All (maximum)" },
+            Tiling = "Terrain tiling",
+            TilingModes = new[] { "Auto", "CPU (software)", "GPU (hardware)" },
+            ObjectCulling = "Object culling",
+            SoftwareCursor = "Software cursor",
+            DecompressedTextures = "Uncompressed textures",
+            Sound = "Sound",
+            Music = "Music",
+            Effects = "Effects",
+            Interface = "Interface",
+            ShowChat = "Show chat",
+            AlwaysShowNames = "Always show names",
+            ShowDamage = "Show damage",
+            ShowShopTitles = "Show shop titles",
+            WindowsIme = "Use Windows IME",
+            LanguageLabel = "Language",
+            DarkMode = "Dark mode",
+            Defaults = "Defaults",
+            SaveAndPlay = "Save and Play",
+            Save = "Save",
+            Cancel = "Cancel",
+            Custom = "custom",
+            Error = "Error",
+            LoadFailed = "{0} could not be read, default settings are shown.\n\n{1}",
+            SaveFailed = "The settings could not be saved:\n{0}\n\n{1}\n\nIf the game is installed under \"Program Files\", run config.exe as administrator.",
+            LaunchFailed = "The game could not be started:\n{0}\n\n{1}",
+            UnexpectedError = "Unexpected error:\n\n{0}",
+        };
+    }
+}

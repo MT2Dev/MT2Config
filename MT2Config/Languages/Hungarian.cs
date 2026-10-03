@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateHungarian() => new Language
+        {
+            Code = "hu",
+            Name = "Magyar",
+            Title = "Beállítások",
+            Display = "Kijelző",
+            ScreenMode = "Képernyőmód",
+            Windowed = "Ablakos",
+            Fullscreen = "Teljes képernyős",
+            Resolution = "Felbontás",
+            RefreshRate = "Képfrissítés",
+            Gamma = "Gamma",
+            Graphics = "Grafika",
+            ViewDistance = "Látótávolság",
+            ViewDistances = new[] { "Közeli", "Közepes", "Távoli" },
+            Shadows = "Árnyékok",
+            ShadowLevels = new[] { "Kikapcsolva", "Csak talaj", "Talaj és saját karakter", "Összes", "Összes (magas)", "Összes (maximális)" },
+            Tiling = "Terepmegjelenítés",
+            TilingModes = new[] { "Automatikus", "CPU (szoftveres)", "GPU (hardveres)" },
+            ObjectCulling = "Nem látható objektumok elrejtése",
+            SoftwareCursor = "Szoftveres kurzor",
+            DecompressedTextures = "Tömörítetlen textúrák",
+            Sound = "Hang",
+            Music = "Zene",
+            Effects = "Effektek",
+            Interface = "Kezelőfelület",
+            ShowChat = "Chat megjelenítése",
+            AlwaysShowNames = "Nevek állandó megjelenítése",
+            ShowDamage = "Sebzés megjelenítése",
+            ShowShopTitles = "Boltnevek megjelenítése",
+            WindowsIme = "Windows IME használata",
+            LanguageLabel = "Nyelv",
+            DarkMode = "Sötét mód",
+            Defaults = "Alapértékek",
+            SaveAndPlay = "Mentés és játék",
+            Save = "Mentés",
+            Cancel = "Mégse",
+            Custom = "egyéni",
+            Error = "Hiba",
+            LoadFailed = "A(z) {0} fájl nem olvasható, az alapértelmezett beállítások jelennek meg.\n\n{1}",
+            SaveFailed = "A beállítások nem menthetők:\n{0}\n\n{1}\n\nHa a játék a \"Program Files\" mappában van, futtasd rendszergazdaként a config.exe fájlt.",
+            LaunchFailed = "A játék nem indítható el:\n{0}\n\n{1}",
+            UnexpectedError = "Váratlan hiba:\n\n{0}",
+        };
+    }
+}

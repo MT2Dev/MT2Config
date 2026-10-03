@@ -1,0 +1,50 @@
+﻿namespace MT2Config
+{
+    partial class Language
+    {
+        static Language CreateDutch() => new Language
+        {
+            Code = "nl",
+            Name = "Nederlands",
+            Title = "Instellingen",
+            Display = "Beeldscherm",
+            ScreenMode = "Schermmodus",
+            Windowed = "Venster",
+            Fullscreen = "Volledig scherm",
+            Resolution = "Resolutie",
+            RefreshRate = "Beeldfrequentie",
+            Gamma = "Gamma",
+            Graphics = "Graphics",
+            ViewDistance = "Zichtafstand",
+            ViewDistances = new[] { "Dichtbij", "Gemiddeld", "Ver" },
+            Shadows = "Schaduwen",
+            ShadowLevels = new[] { "Uit", "Alleen terrein", "Terrein en eigen personage", "Alles", "Alles (hoog)", "Alles (maximaal)" },
+            Tiling = "Terreinweergave",
+            TilingModes = new[] { "Automatisch", "CPU (software)", "GPU (hardware)" },
+            ObjectCulling = "Objecten buiten beeld verbergen",
+            SoftwareCursor = "Softwarecursor",
+            DecompressedTextures = "Ongecomprimeerde texturen",
+            Sound = "Geluid",
+            Music = "Muziek",
+            Effects = "Effecten",
+            Interface = "Interface",
+            ShowChat = "Chat tonen",
+            AlwaysShowNames = "Namen altijd tonen",
+            ShowDamage = "Schade tonen",
+            ShowShopTitles = "Winkelnamen tonen",
+            WindowsIme = "Windows-IME gebruiken",
+            LanguageLabel = "Taal",
+            DarkMode = "Donkere modus",
+            Defaults = "Standaard",
+            SaveAndPlay = "Opslaan en spelen",
+            Save = "Opslaan",
+            Cancel = "Annuleren",
+            Custom = "aangepast",
+            Error = "Fout",
+            LoadFailed = "{0} kon niet worden gelezen, de standaardinstellingen worden weergegeven.\n\n{1}",
+            SaveFailed = "De instellingen konden niet worden opgeslagen:\n{0}\n\n{1}\n\nAls het spel in \"Program Files\" is geïnstalleerd, voer config.exe dan als administrator uit.",
+            LaunchFailed = "Het spel kon niet worden gestart:\n{0}\n\n{1}",
+            UnexpectedError = "Onverwachte fout:\n\n{0}",
+        };
+    }
+}

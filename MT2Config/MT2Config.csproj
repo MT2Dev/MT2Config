@@ -14,11 +14,15 @@
     <!-- bin\Release\config.exe instead of bin\Release\net48\config.exe -->
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
-    <AssemblyTitle>Metin2 Config</AssemblyTitle>
-    <Product>MT2Config</Product>
+    <!-- Version information shown in the file properties, matching the client's VERSIONINFO. -->
+    <AssemblyTitle>MT2DevCore - Config</AssemblyTitle>
+    <Company>MT2Dev Works (C)</Company>
+    <Product>MT2DevCore</Product>
     <Description>Metin2 client configuration tool</Description>
-    <Copyright>Copyright © 2019 Takuma, 2026 MT2Dev</Copyright>
-    <Version>2.0.0</Version>
+    <Copyright>Copyright (C) 2026</Copyright>
+    <Version>1.0.0.0</Version>
+    <!-- Keep the product version "1.0.0.0" instead of "1.0.0.0+<commit hash>". -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
