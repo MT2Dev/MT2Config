@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- .NET Framework 4.8 is built into Windows 10 (1903+) / 11 and installable on Windows 7 SP1,
+         so players get a single small config.exe with nothing else to install. -->
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>config</AssemblyName>
+    <RootNamespace>MT2Config</RootNamespace>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- bin\Release\config.exe instead of bin\Release\net48\config.exe -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+    <AssemblyTitle>Metin2 Config</AssemblyTitle>
+    <Product>MT2Config</Product>
+    <Description>Metin2 client configuration tool</Description>
+    <Copyright>Copyright © 2019 Takuma, 2026 MT2Dev</Copyright>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="MainForm.cs" SubType="Form" />
+    <EmbeddedResource Include="app.ico" LogicalName="MT2Config.app.ico" />
+  </ItemGroup>
+
+</Project>
