@@ -351,6 +351,9 @@ directly.
 
 3. Check the draft on the [Releases](https://github.com/MT2Dev/MT2Config/releases) page and click **Publish release**.
 
+The workflow skips a tag that already has a release or draft, so the tag created by publishing a draft from the
+Actions tab does not start a second build. Started from the Actions tab for such a version, it stops with an error.
+
 GitHub attaches the source code archives of the tag to every published release, which also covers the GPL
 requirement to make the source of the shipped version available.
 
